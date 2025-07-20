@@ -32,4 +32,28 @@ a,
     grid-template-columns: 1fr 1fr;
     padding: 0 2rem;
   }
+
+  html, body, #app, .main-view {
+    background: #fff !important;
+    min-width: 100vw !important;
+    max-width: 100vw !important;
+    min-height: 100vh !important;
+    max-height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    box-sizing: border-box !important;
+  }
+
+  @font-face {
+    font-family: 'GowunBatang-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunBatang-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  body, #app {
+    font-family: 'GowunBatang-Regular', serif;
+  }
 }
