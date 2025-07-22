@@ -1,19 +1,21 @@
 <script>
-import RightSide from "@/components/RightSide.vue";
+import RightSide from "@/components/mainview/RightSide.vue";
+import LeftSide from "@/components/mainview/LeftSide.vue";
 
 export default {
   name: 'MainView',
-  components: {RightSide},
+  components: {RightSide, LeftSide},
   data() {
     return {
       isRightSideOpen: false,
+      isLeftSideOpen: false,
     }
   },
   computed: {
     heartRightStyle() {
       if (this.isRightSideOpen) {
         return{ // 닫혔을 때: 패널 왼쪽에 붙임
-          right: '33vw',
+          right: '22vw',
           transition: 'right 0.4s cubic-bezier(.71, 1.7, .58, .98)'
         }
       }else { //닫혔을 때 화면 오른쪽 끝
@@ -22,11 +24,27 @@ export default {
           transition: 'right 0.4s cubic-bezier(.71, 1.7, .58, .98)'
         }
       }
+    },
+    heartLeftStyle() {
+      if (this.isLeftSideOpen) {
+        return{
+          left: '22vw',
+          transition: 'left 0.4s cubic-bezier(.71, 1.7, .58, .98)'
+        }
+      }else {
+        return {
+          left: '32px',
+          transition: 'left 0.4s cubic-bezier(.71, 1.7, .58, .98)'
+        }
+      }
     }
   },
   methods: {
     toggleRight() {
       this.isRightSideOpen = !this.isRightSideOpen;
+    },
+    toggleLeft() {
+      this.isLeftSideOpen = !this.isLeftSideOpen;
     },
   },
 }
@@ -36,7 +54,8 @@ export default {
 
 <template>
   <div class="main-view">
-    <img src="../assets/leftHeartBar.png" alt="왼쪽하트" class="left-sideBar" />
+    <img src="../assets/leftHeartBar.png" alt="왼쪽하트" class="left-sideBar" :class="{'attached': isLeftSideOpen}"
+          @click="toggleLeft" :style="heartLeftStyle"/>
     <img src="../assets/rightHeartBar.png" alt="오른쪽하트" class="right-sideBar" :class="{'attached': isRightSideOpen}"
          @click="toggleRight" :style="heartRightStyle"/>
     <div class="center-icon">
@@ -46,6 +65,7 @@ export default {
 
 
     <RightSide :open="isRightSideOpen" />
+    <LeftSide :open="isLeftSideOpen" />
   </div>
 </template>
 
@@ -57,6 +77,7 @@ export default {
   width: 100vw;
   height: 100vh;
   background: #ffffff;
+  /* 나중에 요소가 넘치면 스크롤이 생기도록 */
   overflow:  hidden;
 }
 
@@ -95,6 +116,7 @@ export default {
   height: 48px;
   cursor: pointer;
   z-index: 1100;
+  transition:  transform 0.15s cubic-bezier(.71, 1.7, .58, .98);
 }
 
 .right-sideBar {
@@ -105,7 +127,7 @@ export default {
   width: 53px;
   height: 48px;
   cursor: pointer;
-  z-index: 1101;
+  z-index: 1100;
   transition:  transform 0.15s cubic-bezier(.71, 1.7, .58, .98);
 }
 
