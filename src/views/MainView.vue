@@ -99,9 +99,9 @@ export default {
 
 .shop-name {
   margin-top: -9px;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   color: #020202;
-  font-family: 'GowunBatang-Regular', serif;
+  font-family: 'Cafe24Meongi-B-v1.0', serif;
   font-weight:  bold;
   letter-spacing: 2px;
   text-shadow: 1px 1px 5px #fff8;
