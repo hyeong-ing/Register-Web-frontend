@@ -18,12 +18,13 @@ export default {
       :class="{ open: open }"
   >
     <div class="right-side-content">
-      <p class="change-color" @click="$router.push('/simpleRegister')" style="cursor:pointer;"> 회원가입 </p>
-      <p class="change-color" style="cursor:pointer;"> 로그인 </p>
-      <p class="change-color" style="cursor:pointer;"> 비회원 조회 </p>
+      <p class="change-color" @click="$router.push('/simpleRegister')" style="cursor:pointer;"> SIGN UP </p>
+      <p class="change-color" style="cursor:pointer;"> SIGN IN </p>
+      <p class="change-color" style="cursor:pointer;"> GUEST ORDER INQUIRY </p>
       <div class="right-side-bottom">
-        <p> 카카오톡 상담 </p>
-        <p> 전화 상담: 02-0000-0000 </p>
+        <p> KAKAO</p>
+        <p> consultation call_ </p>
+        <p> 02 - 0000 - 0000 </p>
       </div>
     </div>
   </div>
@@ -56,6 +57,7 @@ export default {
   color: #020202;
   height: 100%;
   display: flex;
+  gap: 7px;
   flex-direction: column;
   justify-content: space-between;
 }
@@ -64,7 +66,7 @@ export default {
   margin: 0 0 6px 0;
   transition: color 0.2s, font-weight 0.2s;
   font-weight: bold;
-  color: #ffffff;
+  color: #00ff80;
   cursor: pointer;
 }
 
