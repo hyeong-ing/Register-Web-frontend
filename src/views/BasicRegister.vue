@@ -6,6 +6,7 @@ export default {
   data() {
     return {
       name: "",
+      userId: "",
       pwd: "",
       pwdConfirm: "",
       tel: "",
