@@ -26,10 +26,10 @@ export default {
           birth: this.birth,
           email: this.email,
         });
-      alert("Success!");
+      alert("회원가입에 성공했습니다.");
       this.$router.push("/completeView");
       } catch (e) {
-        alert("Failed!");
+        alert(e.response.data);
       }
     }
   }
@@ -211,6 +211,5 @@ export default {
   color: black;
   cursor: pointer;
 }
-
 
 </style>
