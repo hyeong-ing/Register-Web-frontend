@@ -59,6 +59,7 @@ export default {
         <div class="information-row">
           <label>ෆ id:  </label>
           <input v-model="userId" type="text" name="userId" placeholder="id"/>
+          <button class="id-check-btn" v-bind:="echeck"> id </button>
         </div>
         <div class="information-row">
           <label>ෆ pwd:  </label>
@@ -79,6 +80,7 @@ export default {
         <div class="information-row">
           <label>ෆ email:   </label>
           <input v-model="email" type="email" name="email" placeholder="example01@sori.com"/>
+          <button class="id-check-btn" v-bind:="echeck"> email </button>
         </div>
         <div class="signup-btn">
           <button class="change-color01" @click="register"> SIGN UP </button>
@@ -211,5 +213,18 @@ export default {
   color: black;
   cursor: pointer;
 }
+
+.id-check-btn {
+  position: absolute;
+  left: 80%;
+  top: 20%;
+  font-size:  1.0rem;
+  border-radius: 10px;
+  background: white;
+  color: black;
+  cursor: pointer;
+}
+
+
 
 </style>
