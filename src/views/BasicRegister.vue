@@ -1,4 +1,5 @@
 <script>
+
 import axios from "axios";
 
 export default {
@@ -12,11 +13,33 @@ export default {
       tel: "",
       birth: "",
       email: "",
+      idDuplicate: true,
+      emailDuplicate: true,
     };
   },
+
+  watch: {
+    userId(newVal, oldVal) {
+      this.idDuplicate = true;
+    },
+    email(newVal, oldVal) {
+      this.emailDuplicate = true;
+    }
+  },
+
   methods: {
     async register() {
       try {
+        if(this.idDuplicate === true) {
+          alert("아이디 중복체크를 해주세요.")
+          return;
+        }
+
+        if(this.emailDuplicate === true) {
+          alert("이메일 중복체크를 해주세요.")
+          return;
+        }
+
         const res = await axios.post("http://localhost:8080/api/register", {
           name: this.name,
           userId: this.userId,
@@ -26,15 +49,39 @@ export default {
           birth: this.birth,
           email: this.email,
         });
-      alert("회원가입에 성공했습니다.");
-      this.$router.push("/completeView");
+        alert("회원가입에 성공했습니다.");
+        this.$router.push("/completeView");
       } catch (e) {
         alert(e.response.data);
+      }
+    },
+    async checkIdDuplicate() {
+      console.log("idDuplicate 버튼 클릭됨:", this.userId);
+      try{
+        const res = await axios.post("http://localhost:8080/api/idDuplicate", {
+          userId: this.userId
+        });
+        alert("사용가능한 아이디입니다.");
+        this.idDuplicate = false;
+      } catch(e) {
+        alert(e.response.data);
+        this.idDuplicate = true;
+      }
+    },
+    async checkEmailDuplicate() {
+      try {
+        const res = await axios.post("http://localhost:8080/api/emailDuplicate",{
+          email: this.email
+        });
+        alert("사용가능한 이메일입니다.");
+        this.emailDuplicate = false;
+      } catch (e) {
+        alert(e.response.data);
+        this.emailDuplicate = true;
       }
     }
   }
 }
-
 </script>
 
 
@@ -58,8 +105,8 @@ export default {
         </div>
         <div class="information-row">
           <label>ෆ id:  </label>
-          <input v-model="userId" type="text" name="userId" placeholder="id"/>
-          <button class="id-check-btn" v-bind:="echeck"> id </button>
+          <input v-model="userId" @input="idDuplicate" type="text" name="userId" placeholder="id"/>
+          <button class="duplicate-btn" @click="checkIdDuplicate"> id </button>
         </div>
         <div class="information-row">
           <label>ෆ pwd:  </label>
@@ -79,8 +126,8 @@ export default {
         </div>
         <div class="information-row">
           <label>ෆ email:   </label>
-          <input v-model="email" type="email" name="email" placeholder="example01@sori.com"/>
-          <button class="id-check-btn" v-bind:="echeck"> email </button>
+          <input v-model="email"  type="email" name="email" placeholder="example01@sori.com"/>
+          <button class="duplicate-btn" @click="checkEmailDuplicate"> email </button>
         </div>
         <div class="signup-btn">
           <button class="change-color01" @click="register"> SIGN UP </button>
@@ -214,7 +261,7 @@ export default {
   cursor: pointer;
 }
 
-.id-check-btn {
+.duplicate-btn {
   position: absolute;
   left: 80%;
   top: 20%;
