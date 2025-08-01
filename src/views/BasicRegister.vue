@@ -50,7 +50,10 @@ export default {
           email: this.email,
         });
         alert("회원가입에 성공했습니다.");
-        this.$router.push("/completeView");
+        this.$router.push({
+          path: "/completeView",
+          query: { userId: this.userId }
+      })
       } catch (e) {
         alert(e.response.data);
       }
@@ -106,7 +109,7 @@ export default {
         <div class="information-row">
           <label>ෆ id:  </label>
           <input v-model="userId" @input="idDuplicate" type="text" name="userId" placeholder="id"/>
-          <button class="duplicate-btn" @click="checkIdDuplicate"> id </button>
+          <button class="id-duplicate-btn" @click="checkIdDuplicate"> id </button>
         </div>
         <div class="information-row">
           <label>ෆ pwd:  </label>
@@ -127,7 +130,7 @@ export default {
         <div class="information-row">
           <label>ෆ email:   </label>
           <input v-model="email"  type="email" name="email" placeholder="example01@sori.com"/>
-          <button class="duplicate-btn" @click="checkEmailDuplicate"> email </button>
+          <button class="email-duplicate-btn" @click="checkEmailDuplicate"> email </button>
         </div>
         <div class="signup-btn">
           <button class="change-color01" @click="register"> SIGN UP </button>
@@ -142,22 +145,19 @@ export default {
 
 <style scoped>
 .basic-view {
-  position: relative;
   width: 100vw;
   height: 100vh;
+  min-height: 100vh;
   background: #ffffff;
-  overflow: scroll;
+  display: flex;
+  justify-content: center;
 }
 
 .center-icon{
-  position: relative;
-  top: 5%;
-  left: 50%;
-  transform: translate(-50%, 0%);
-  display:  flex;
-  flex-direction:  column;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  z-index: 1101;
+  padding-top: 40px;
 }
 
 .wings{
@@ -184,24 +184,24 @@ export default {
 /* new code */
 
 .account{
-  position: relative;
+  position: fixed;
   width: 33vw;
-  height: 74vh;
+  height: 68vh;
   min-width: 260px;
-  max-width: 720px;
-  top: 9%;
+  max-width: 450px;
+  top: 17%;
   left: 50%;
   border-left:  6px solid black;
   border-right:  6px solid  black;
   transform: translate(-50%, 0%);
-  padding: 32px 8px 32px 13px;
+  padding: 40px 8px 32px 25px;
   border-radius: 16px;
   box-sizing: border-box;
   overflow: scroll;
 }
 
 .information-column{
-  display: flex;
+  display:flex;
   flex-direction: column;
   gap: 24px;
   width: 100%;
@@ -209,22 +209,21 @@ export default {
 }
 
 .information-row{
-  position: relative;
   display:  flex;
-  flex-direction: row;
-  box-sizing: border-box;
+  align-items: center;
   color: black;
+  padding-left: 12px;
 }
 
 .information-row label {
   min-width: 70px;
   color: black;
   font-weight: bold;
-  font-size: 1.0rem;
+  font-size: 1rem;
 }
 
 .information-row input{
-  padding: 3px 4px 1px 4px;
+  padding: 3px 13px 2px 4px;
   font-size: 1rem;
   border-top: none;
   border-right: none;
@@ -239,7 +238,7 @@ export default {
 
 .signup-btn {
   position: fixed;
-  top: 86%;
+  top: 440px;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -261,16 +260,28 @@ export default {
   cursor: pointer;
 }
 
-.duplicate-btn {
-  position: absolute;
-  left: 80%;
-  top: 20%;
+.id-duplicate-btn {
+  position: fixed;
+  left: 350px;
+  top: 38px;
   font-size:  1.0rem;
   border-radius: 10px;
   background: white;
   color: black;
   cursor: pointer;
 }
+
+.email-duplicate-btn {
+  position: fixed;
+  left: 350px;
+  top: 340px;
+  font-size:  1.0rem;
+  border-radius: 10px;
+  background: white;
+  color: black;
+  cursor: pointer;
+}
+
 
 
 

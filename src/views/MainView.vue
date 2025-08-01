@@ -59,8 +59,10 @@ export default {
     <img src="../assets/rightHeartBar.png" alt="오른쪽하트" class="right-sideBar" :class="{'attached': isRightSideOpen}"
          @click="toggleRight" :style="heartRightStyle"/>
     <div class="center-icon">
-      <img src="../assets/wings.png" alt="날개아이콘" class="wings" />
-      <div class="shop-name">sori</div>
+      <img src="../assets/wings.png" alt="날개아이콘" class="wings" @click="$router.push('/main')" style="cursor:pointer;" />
+      <div class="shop-name">
+        <p class="change-color01" @click="$router.push('/main')"> sori </p>
+      </div>
     </div>
 
 
@@ -105,6 +107,13 @@ export default {
   font-weight:  bold;
   letter-spacing: 2px;
   text-shadow: 1px 1px 5px #fff8;
+}
+
+.shop-name p.change-color01:hover{
+  transition: color 0.2s, font-weight 0.2s;
+  font-weight: bold;
+  color: #00ff80;
+  cursor: pointer;
 }
 
 .left-sideBar {

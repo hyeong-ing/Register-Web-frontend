@@ -1,6 +1,11 @@
 <script >
 export default {
   name: 'CompleteView',
+  computed: {
+    userId() {
+      return this.$route.query.userId;
+    }
+  }
 }
 </script>
 
@@ -19,7 +24,10 @@ export default {
     </div>
 
     <div class="user-info">
-      <p class="user-id"> user-id님</p>
+      <div class="user-column">
+        <p class="user-id">{{ userId }}</p>
+        <p class="nim"> 님 </p>
+      </div>
       <p class="welcome"> ಣ sori의 회원이 되신걸 환영합니다 ಐ</p>
     </div>
 
@@ -43,7 +51,7 @@ export default {
 }
 
 .center-icon{
-  position: absolute;
+  position: fixed;
   top: 5%;
   left: 50%;
   transform: translate(-50%, 0%);
@@ -87,10 +95,32 @@ export default {
   border-radius: 40px;
 }
 
+.user-column{
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  align-items: stretch;
+}
+
 .user-id{
   position: absolute;
   top: 40%;
-  left: 50%;
+  left: 48%;
+  padding-left: 7px;
+  padding-right: 7px;
+  border-radius: 17px;
+  transform: translate(-50%,-50%);
+  font-weight: bold;
+  font-size: 20px;
+  background: #00ff80;
+  color: black;
+}
+
+.nim{
+  position: absolute;
+  top: 40%;
+  left: 56%;
   transform: translate(-50%,-50%);
   font-size: 19px;
   color: black;
