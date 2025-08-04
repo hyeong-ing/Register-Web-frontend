@@ -13,22 +13,22 @@ export default {
   },
   computed: {
     heartRightStyle() {
-      if (this.isRightSideOpen) {
-        return{ // 닫혔을 때: 패널 왼쪽에 붙임
-          right: '22vw',
+      if (this.isRightSideOpen === true) {
+        return{
+          right: '23vw',
           transition: 'right 0.4s cubic-bezier(.71, 1.7, .58, .98)'
         }
-      }else { //닫혔을 때 화면 오른쪽 끝
+      }else {
         return {
-          right: '32px', //32px만큼 떨어져있으니까
+          right: '32px',
           transition: 'right 0.4s cubic-bezier(.71, 1.7, .58, .98)'
         }
       }
     },
     heartLeftStyle() {
-      if (this.isLeftSideOpen) {
+      if (this.isLeftSideOpen === true) {
         return{
-          left: '22vw',
+          left: '23vw',
           transition: 'left 0.4s cubic-bezier(.71, 1.7, .58, .98)'
         }
       }else {
@@ -54,20 +54,18 @@ export default {
 
 <template>
   <div class="main-view">
-    <img src="../assets/leftHeartBar.png" alt="왼쪽하트" class="left-sideBar" :class="{'attached': isLeftSideOpen}"
+    <img src="../assets/leftHeartBar.png" alt="왼쪽하트" class="left-sideBar" :class="{isLeftSideOpen: isLeftSideOpen}"
           @click="toggleLeft" :style="heartLeftStyle"/>
-    <img src="../assets/rightHeartBar.png" alt="오른쪽하트" class="right-sideBar" :class="{'attached': isRightSideOpen}"
+    <LeftSide :open="isLeftSideOpen" />
+    <img src="../assets/rightHeartBar.png" alt="오른쪽하트" class="right-sideBar" :class="{isRightSideOpen: isRightSideOpen}"
          @click="toggleRight" :style="heartRightStyle"/>
+    <RightSide :open="isRightSideOpen" />
     <div class="center-icon">
       <img src="../assets/wings.png" alt="날개아이콘" class="wings" @click="$router.push('/main')" style="cursor:pointer;" />
       <div class="shop-name">
         <p class="change-color01" @click="$router.push('/main')"> sori </p>
       </div>
     </div>
-
-
-    <RightSide :open="isRightSideOpen" />
-    <LeftSide :open="isLeftSideOpen" />
   </div>
 </template>
 
@@ -87,7 +85,7 @@ export default {
   position: fixed;
   top: 10%;
   left: 50%;
-  transform: translate(-50%, 0%);
+  transform: translateX(-50%);
   display:  flex;
   flex-direction:  column;
   align-items: center;
@@ -118,19 +116,17 @@ export default {
 
 .left-sideBar {
   position: fixed;
-  left: 32px;
   top: 50%;
   transform: translateY(-50%);
   width: 53px;
   height: 48px;
   cursor: pointer;
   z-index: 1100;
-  transition:  transform 0.15s cubic-bezier(.71, 1.7, .58, .98);
+  transition: transform 0.15s cubic-bezier(.71, 1.7, .58, .98);
 }
 
 .right-sideBar {
   position: fixed;
-  right: 32px;
   top: 50%;
   transform: translateY(-50%);
   width: 53px;

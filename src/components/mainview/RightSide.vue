@@ -13,14 +13,11 @@ export default {
 
 <template>
 
-  <div
-      class="right-side"
-      :class="{ open: open }"
-  >
+  <div class="right-side" :class="{ open: open }">
     <div class="right-side-content">
-      <p class="change-color" @click="$router.push('/simpleRegister')" style="cursor:pointer;"> SIGN UP </p>
-      <p class="change-color" style="cursor:pointer;"> SIGN IN </p>
-      <p class="change-color" style="cursor:pointer;"> GUEST ORDER INQUIRY </p>
+      <p class="change-color" @click="$router.push('/simpleRegister')"> SIGN UP </p>
+      <p class="change-color"> SIGN IN </p>
+      <p class="change-color"> GUEST ORDER INQUIRY </p>
       <div class="right-side-bottom">
         <p> KAKAO</p>
         <p> consultation call_ </p>
@@ -36,10 +33,11 @@ export default {
   position: fixed;
   top: 0;
   right: 0;
-  width:22vw;
+  width: 22vw;
   height: 100vh;
   background: #9f9f9f;
   border-left: 4px solid #020202;
+  border-radius: 10px;
   box-shadow: -4px 0 12px rgba(0, 0, 0, 0.23);
   transform: translateX(100%);
   transition: transform 0.4s cubic-bezier(.71,1.7,.58,.98);
@@ -48,7 +46,6 @@ export default {
 
 .right-side.open {
   transform: translateX(0%);
-  border-radius: 10px;
 }
 
 .right-side-content {
@@ -59,7 +56,6 @@ export default {
   display: flex;
   gap: 7px;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .right-side-content p.change-color:hover{
@@ -71,7 +67,7 @@ export default {
 }
 
 .right-side-bottom {
-  margin-top: auto;
+  margin-top: auto ;
 }
 
 </style>
