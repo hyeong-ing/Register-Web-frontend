@@ -16,7 +16,7 @@ export default {
   <div class="right-side" :class="{ open: open }">
     <div class="right-side-content">
       <p class="change-color" @click="$router.push('/simpleRegister')"> SIGN UP </p>
-      <p class="change-color"> SIGN IN </p>
+      <p class="change-color" @click="$router.push('/login')"> SIGN IN </p>
       <p class="change-color"> GUEST ORDER INQUIRY </p>
       <div class="right-side-bottom">
         <p> KAKAO</p>

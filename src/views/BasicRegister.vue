@@ -30,7 +30,7 @@ export default {
   methods: {
     async register() {
       try {
-        if(this.idDuplicate === true) {
+       if(this.idDuplicate === true) {
           alert("아이디 중복체크를 해주세요.")
           return;
         }
@@ -95,8 +95,8 @@ export default {
     <div class="center-icon">
       <img src="../assets/wings.png" alt="날개아이콘" class="wings"
            @click="$router.push('/main')" style="cursor:pointer;"/>
-      <div class="create" style="font-weight: bold">
-        <p class="change-color01" @click="$router.push('/main')">Create Account </p>
+      <div class="create">
+        <p @click="$router.push('/main')">Create Account </p>
       </div>
     </div>
 
@@ -148,8 +148,8 @@ export default {
   width: 100vw;
   height: 100vh;
   min-height: 100vh;
-  background: #ffffff;
   display: flex;
+  background: white;
   justify-content: center;
 }
 
@@ -157,7 +157,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 40px;
 }
 
 .wings{
@@ -174,7 +173,7 @@ export default {
   text-shadow: 1px 1px 5px #fff8;
 }
 
-.create p.change-color01:hover{
+.create p:hover{
   transition: color 0.2s, font-weight 0.2s;
   font-weight: bold;
   color: #00ff80;
@@ -193,11 +192,10 @@ export default {
   left: 50%;
   border-left:  6px solid black;
   border-right:  6px solid  black;
-  transform: translate(-50%, 0%);
+  transform: translateX(-50%);
   padding: 40px 8px 32px 25px;
   border-radius: 16px;
   box-sizing: border-box;
-  overflow: scroll;
 }
 
 .information-column{
@@ -249,10 +247,10 @@ export default {
   padding: 5px 13px;
   background: black;
   color: white;
+  transition: color 0.2s, font-weight 0.2s;
 }
 
 .signup-btn button.change-color01:hover{
-  transition: color 0.2s, font-weight 0.2s;
   font-weight: bold;
   border: 1px solid #00ff80;
   background: #00ff80;
@@ -263,7 +261,7 @@ export default {
 .id-duplicate-btn {
   position: fixed;
   left: 350px;
-  top: 38px;
+  top: 16%;
   font-size:  1.0rem;
   border-radius: 10px;
   background: white;
