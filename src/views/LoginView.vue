@@ -1,6 +1,32 @@
 <script>
+
+import axios from "axios";
+
 export default {
   name: 'LoginView',
+  data() {
+    return {
+      userId: "",
+      pwd: ""
+    };
+  },
+  methods: {
+    async login() {
+      try {
+        const res = await axios.post("http://localhost:8080/api/login", {
+          userId: this.userId,
+          pwd: this.pwd
+        });
+        alert("로그인되었습니다.");
+        this.$router.push({
+          path: "/main"
+        })
+      } catch (e) {
+        alert(e.response.data);
+      }
+    }
+  }
+
 
 }
 
@@ -28,9 +54,7 @@ export default {
         <p>ෆ PWD </p>
         <input v-model="pwd" type="password" name="password" placeholder="password"/>
       </div>
-      <div class="login-button">
-        <p class="login-text"> SIGN IN </p>
-      </div>
+        <button class="login-text" @click="login"> SIGN IN </button>
     </div>
 
   </div>
@@ -104,7 +128,7 @@ export default {
   align-items: center;
   flex-direction: row;
   display: flex;
-  gap: 8.55%;
+  gap: 9.3%;
   font-size: 1.0rem;
   font-weight: bold;
   font-family: 'GowunBatang-Regular', serif;
@@ -127,7 +151,7 @@ export default {
   align-items: center;
   flex-direction: row;
   display: flex;
-  gap: 3%;
+  gap: 5%;
   font-size: 1.0rem;
   font-weight: bold;
   font-family: 'GowunBatang-Regular', serif;
@@ -140,32 +164,27 @@ export default {
   font-size: 1rem;
   transition: border-bottom 0.2s ;
 }
-.login-button{
+
+
+.login-text {
   position: absolute;
   width: 20vw;
-  height: 5vh;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 67%;
-  background: white;
-  color: black;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: background-color 0.2s, font-weight 0.2s;
-}
-.login-button:hover{
-  font-weight: bold;
-  background: #00ff80;
-  cursor: pointer;
-}
-.login-text{
-  position: absolute;
-  bottom: 10%;
+  height: 5.3vh;
+  bottom: 17%;
   left: 50%;
   transform: translateX(-50%);
   font-size: 1rem;
   font-weight: bold;
   text-align: center;
+  cursor: pointer;
+  transition: background-color 0.4s ease, border 0.4s ease, color 0.4s ease;
+}
+
+.login-text:hover{
+  background-color: #00ff80;
+  border: #00ff80;
+  color: white;
+  -webkit-text-stroke: 0.8px black;
 }
 
 </style>

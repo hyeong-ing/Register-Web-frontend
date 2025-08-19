@@ -108,7 +108,7 @@ export default {
         </div>
         <div class="information-row">
           <label>ෆ id:  </label>
-          <input v-model="userId" @input="idDuplicate" type="text" name="userId" placeholder="id"/>
+          <input v-model="userId" type="text" name="userId" placeholder="id"/>
           <button class="id-duplicate-btn" @click="checkIdDuplicate"> id </button>
         </div>
         <div class="information-row">
