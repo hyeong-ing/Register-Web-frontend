@@ -18,16 +18,37 @@ export default {
           pwd: this.pwd
         });
         alert("로그인되었습니다.");
+        localStorage.setItem("displayName", this.userId);
         this.$router.push({
-          path: "/main"
-        })
+          path: "/customer-view",
+          query: { userId: this.userId }
+        });
       } catch (e) {
         alert(e.response.data);
       }
+    },
+    kakaoLogin() {
+      const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
+      const REDIRECT_URI = `${window.location.origin}/oauth/code/kakao`;
+
+      if (!REST_API_KEY) {
+        alert('VITE_KAKAO_REST_API_KEY 비어있음!');
+        return;
+      }
+
+      const state = btoa(String(Date.now()));
+      sessionStorage.setItem("kakao_oauth_state", state);
+
+      const authUrl =
+          `https://kauth.kakao.com/oauth/authorize?response_type=code` +
+          `&client_id=${encodeURIComponent(REST_API_KEY)}` +
+          `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
+          `&state=${encodeURIComponent(state)}`;
+
+      window.location.href = authUrl;
+
     }
   }
-
-
 }
 
 </script>
@@ -55,6 +76,10 @@ export default {
         <input v-model="pwd" type="password" name="password" placeholder="password"/>
       </div>
         <button class="login-text" @click="login"> SIGN IN </button>
+    </div>
+
+    <div class="kakao">
+      <img src="../assets/kakao.png" alt="Kakao" @click="kakaoLogin"/>
     </div>
 
   </div>
@@ -185,6 +210,14 @@ export default {
   border: #00ff80;
   color: white;
   -webkit-text-stroke: 0.8px black;
+}
+
+.kakao{
+  position:  absolute;
+  top:60%;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
 }
 
 </style>

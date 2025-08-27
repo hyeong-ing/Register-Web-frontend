@@ -17,7 +17,7 @@ export default {
   <div class="complete-view">
     <div class="center-icon">
       <img src="../assets/wings.png" alt="날개아이콘" class="wings"
-           @click="$router.push('/main')" style="cursor:pointer;"/>
+           @click="$router.push('/customer-view')" style="cursor:pointer;"/>
       <div class="create" style="font-weight: bold">
         <p class="change-color01" @click="$router.push('/main')">ෆ SUCCESS ෆ</p>
       </div>
