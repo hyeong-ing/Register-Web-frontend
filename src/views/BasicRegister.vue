@@ -8,8 +8,8 @@ export default {
     return {
       name: "",
       userId: "",
-      pwd: "",
-      pwdConfirm: "",
+      pw: "",
+      pwConfirm: "",
       tel: "",
       birth: "",
       email: "",
@@ -43,8 +43,8 @@ export default {
         const res = await axios.post("http://localhost:8080/api/register", {
           name: this.name,
           userId: this.userId,
-          pwd: this.pwd,
-          pwdConfirm: this.pwdConfirm,
+          pw: this.pw,
+          pwConfirm: this.pwConfirm,
           tel: this.tel,
           birth: this.birth,
           email: this.email,
@@ -112,12 +112,12 @@ export default {
           <button class="id-duplicate-btn" @click="checkIdDuplicate"> id </button>
         </div>
         <div class="information-row">
-          <label>ෆ pwd:  </label>
-          <input v-model="pwd" type="password" name="password" placeholder="password"/>
+          <label>ෆ pw:  </label>
+          <input v-model="pw" type="password" name="password" placeholder="password"/>
         </div>
         <div class="information-row">
-          <label>ෆ pwd confirm:  </label>
-          <input v-model="pwdConfirm" type="password" name="passwordConfirm" placeholder="password confirm"/>
+          <label>ෆ pw confirm:  </label>
+          <input v-model="pwConfirm" type="password" name="passwordConfirm" placeholder="password confirm"/>
         </div>
         <div class="information-row">
           <label>ෆ tel:   </label>

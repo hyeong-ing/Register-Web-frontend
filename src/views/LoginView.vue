@@ -7,7 +7,7 @@ export default {
   data() {
     return {
       userId: "",
-      pwd: ""
+      pw: ""
     };
   },
   methods: {
@@ -15,36 +15,41 @@ export default {
       try {
         const res = await axios.post("http://localhost:8080/api/login", {
           userId: this.userId,
-          pwd: this.pwd
+          pw: this.pw
         });
-        alert("로그인되었습니다.");
         localStorage.setItem("displayName", this.userId);
-        this.$router.push({
-          path: "/customer-view",
-          query: { userId: this.userId }
-        });
+        alert("로그인되었습니다.");
+        this.$router.replace("/main");
       } catch (e) {
-        alert(e.response.data);
+        alert(e?.response?.data ?? "로그인 중 오류가 발생했습니다.");
       }
     },
+    // 카카오 로그인 창이 보이도록 하는 메서드
     kakaoLogin() {
+      // REST_API_KEY는 따로 저장 해둠. 그 위치를 적었음
       const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
+      //
       const REDIRECT_URI = `${window.location.origin}/oauth/code/kakao`;
 
       if (!REST_API_KEY) {
-        alert('VITE_KAKAO_REST_API_KEY 비어있음!');
+        alert('REST_API_KEY 비어있음!');
         return;
       }
 
+      // CSRF 방지를 위해 state 값 생성하고 보관했다.
       const state = btoa(String(Date.now()));
+      // state 보관
       sessionStorage.setItem("kakao_oauth_state", state);
 
+      // 개발자가 인가 코드를 받기 위해 쿼리 파라미터에 담야할 정보들
       const authUrl =
           `https://kauth.kakao.com/oauth/authorize?response_type=code` +
           `&client_id=${encodeURIComponent(REST_API_KEY)}` +
           `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
           `&state=${encodeURIComponent(state)}`;
 
+      // authUrl로 페이지 이동하기
+      // href는 뒤로가기 허용
       window.location.href = authUrl;
 
     }
@@ -71,13 +76,14 @@ export default {
         <p>ෆ ID </p>
         <input v-model="userId" @input="userId" type="text" name="userId" placeholder="id"/>
       </div>
-      <div class="pwd-box">
-        <p>ෆ PWD </p>
-        <input v-model="pwd" type="password" name="password" placeholder="password"/>
+      <div class="pw-box">
+        <p>ෆ PW </p>
+        <input v-model="pw" type="password" name="password" placeholder="password"/>
       </div>
         <button class="login-text" @click="login"> SIGN IN </button>
     </div>
 
+    <!-- 카카오 버튼 -->
     <div class="kakao">
       <img src="../assets/kakao.png" alt="Kakao" @click="kakaoLogin"/>
     </div>
@@ -126,9 +132,6 @@ export default {
   cursor: pointer;
 }
 
-
-/* new code */
-
 .login-container {
   position: absolute;
   width: 33vw;
@@ -148,12 +151,12 @@ export default {
   position: absolute;
   width: 33vw;
   height: 10vh;
-  left: 18%;
+  left: 20%;
   top: 10%;
   align-items: center;
   flex-direction: row;
   display: flex;
-  gap: 9.3%;
+  gap: 8.5%;
   font-size: 1.0rem;
   font-weight: bold;
   font-family: 'GowunBatang-Regular', serif;
@@ -167,22 +170,22 @@ export default {
   transition: border-bottom 0.2s ;
 }
 
-.pwd-box{
+.pw-box{
   position: absolute;
   width: 33vw;
   height: 10vh;
-  left: 18%;
+  left: 20%;
   top: 30%;
   align-items: center;
   flex-direction: row;
   display: flex;
-  gap: 5%;
+  gap: 6.6%;
   font-size: 1.0rem;
   font-weight: bold;
   font-family: 'GowunBatang-Regular', serif;
   color: white;
 }
-.pwd-box input{
+.pw-box input{
   width: 15vw;
   height: 4vh;
   padding: 3px 13px 2px 4px;

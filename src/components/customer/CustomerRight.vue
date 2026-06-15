@@ -5,16 +5,20 @@ export default {
     open: {
       type: Boolean,
       required: true,
+    },
+    displayName: {
+      type: String,
+      default: '',
     }
   },
   computed: {
-    // 우선순위: 쿼리(userId→nickname) → localStorage.displayName → 기본값
-    displayName() {
-      const q = this.$route.query;
-      return q.userId
-          || q.nickname
-          || localStorage.getItem('displayName')
-          || 'Guest';
+    nameToShow() {
+      return this.displayName;
+    }
+  },
+  methods: {
+    logout() {
+      this.$emit('logged-out');
     }
   }
 }
@@ -27,9 +31,9 @@ export default {
     <div class="right-side-content">
       <div class="low-content">
         <p class="user-id">{{ displayName }} </p>
-        <p class="fix-text"> 님 </p>
+        <p class="fix-text"> 님 환영합니다˙ᵕ˙</p>
       </div>
-      <p class="logout"> logout </p>
+      <p class="logout" @click="logout">logout</p>
       <div class="right-side-bottom">
         <p> KAKAO</p>
         <p> consultation call_ </p>
@@ -77,6 +81,7 @@ export default {
 
 .user-id {
   text-decoration-line: underline;
+  font-weight: bold;
 
 }
 

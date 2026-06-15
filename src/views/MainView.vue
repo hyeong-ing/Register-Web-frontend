@@ -1,14 +1,16 @@
 <script>
 import RightSide from "@/components/mainview/RightSide.vue";
 import LeftSide from "@/components/mainview/LeftSide.vue";
+import CustomerRight from "@/components/customer/CustomerRight.vue";
 
 export default {
   name: 'MainView',
-  components: {RightSide, LeftSide},
+  components: {RightSide, LeftSide, CustomerRight},
   data() {
     return {
       isRightSideOpen: false,
       isLeftSideOpen: false,
+      displayName: null,
     }
   },
   computed: {
@@ -37,7 +39,10 @@ export default {
           transition: 'left 0.4s cubic-bezier(.71, 1.7, .58, .98)'
         }
       }
-    }
+    },
+    loggedIn() {
+      return Boolean(this.displayName);
+    },
   },
   methods: {
     toggleRight() {
@@ -46,6 +51,30 @@ export default {
     toggleLeft() {
       this.isLeftSideOpen = !this.isLeftSideOpen;
     },
+    loggedOut() {
+      localStorage.removeItem('displayName');
+      this.displayName = null;
+      this.$router.replace('/main');
+    },
+
+    // 다른 창에서 값이 바뀌면 현재 창 값에도 반영한다. (반대도 마찬가지)
+    syncAuth(e) {
+      if (e.key === 'displayName') {
+        // e.newValue가 이미 어딘가에서 저장된 새 값인것! 그리고 새 값을 반영
+        this.displayName = e.newValue;
+      }
+    }
+  },
+  // 로그인된 사용자 아이디가 바뀌면, 동시에 켜 둔 페이지의 아이디도 바뀜
+  // 만약 그게 싫으면 sessionStorage를 사용하면 됨. 근데 보통 웹페이지엔 뭘 더 사용하려나...?
+  mounted() {
+    // 현재 값으로 복사해옴
+    this.displayName = localStorage.getItem('displayName');
+    // 다른 탭에 변경이 있으면 syncAuth를 호출하도록 리스너 등록
+    window.addEventListener('storage', this.syncAuth);
+  }, // 이 페이지에서 나가지면 없애버림. 메모리 관리를 위해 (안보이는데 돌아갈 순 없으니까)
+  beforeUnmount() {
+    window.removeEventListener('storage', this.syncAuth);
   },
 }
 </script>
@@ -59,7 +88,8 @@ export default {
     <LeftSide :open="isLeftSideOpen" />
     <img src="../assets/rightHeartBar.png" alt="오른쪽하트" class="right-sideBar" :class="{isRightSideOpen: isRightSideOpen}"
          @click="toggleRight" :style="heartRightStyle"/>
-    <RightSide :open="isRightSideOpen" />
+    <RightSide v-if="!loggedIn" :open="isRightSideOpen" />
+    <CustomerRight v-else :open="isRightSideOpen" :display-name="displayName" @logged-out="loggedOut" />
     <div class="center-icon">
       <img src="../assets/wings.png" alt="날개아이콘" class="wings" @click="$router.push('/main')" style="cursor:pointer;" />
       <div class="shop-name">
