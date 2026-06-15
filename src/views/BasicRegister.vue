@@ -24,6 +24,20 @@ export default {
     },
     email(newVal, oldVal) {
       this.emailDuplicate = true;
+    },
+    pw(newVal, oldVal) {
+      if (!newVal) {
+        this.pwConfirm = "";
+      }
+    }
+  },
+
+  computed: {
+    showPwConfirm() {
+      return this.pw.length > 0;
+    },
+    isPwMismatch() {
+      return this.pwConfirm.length > 0 && this.pw !== this.pwConfirm;
     }
   },
 
@@ -103,32 +117,37 @@ export default {
     <div class="account">
       <div class="information-column">
         <div class="information-row">
-          <label>ෆ name:  </label>
+          <label>ෆ name  </label>
           <input v-model="name" type="text" name="name" placeholder="name"/>
         </div>
         <div class="information-row">
-          <label>ෆ id:  </label>
+          <label>ෆ id  </label>
           <input v-model="userId" type="text" name="userId" placeholder="id"/>
           <button class="id-duplicate-btn" @click="checkIdDuplicate"> id </button>
         </div>
         <div class="information-row">
-          <label>ෆ pw:  </label>
+          <label>ෆ pw  </label>
           <input v-model="pw" type="password" name="password" placeholder="password"/>
         </div>
+        <transition name="confirm-slide">
+          <div v-if="showPwConfirm" class="information-row confirm-row">
+            <label>ෆ confirm  </label>
+            <div class="input-message-group">
+              <input v-model="pwConfirm" type="password" name="passwordConfirm" placeholder="password confirm"/>
+              <p v-if="isPwMismatch" class="pw-error">비밀번호가 불일치합니다.</p>
+            </div>
+          </div>
+        </transition>
         <div class="information-row">
-          <label>ෆ pw confirm:  </label>
-          <input v-model="pwConfirm" type="password" name="passwordConfirm" placeholder="password confirm"/>
-        </div>
-        <div class="information-row">
-          <label>ෆ tel:   </label>
+          <label>ෆ tel   </label>
           <input v-model="tel" type="tel" name="tel"  placeholder="010-0000-0000"/>
         </div>
         <div class="information-row">
-          <label>ෆ birth:   </label>
+          <label>ෆ birth   </label>
           <input v-model="birth" type="date" name="birth"/>
         </div>
         <div class="information-row">
-          <label>ෆ email:   </label>
+          <label>ෆ email   </label>
           <input v-model="email"  type="email" name="email" placeholder="example01@sori.com"/>
           <button class="email-duplicate-btn" @click="checkEmailDuplicate"> email </button>
         </div>
@@ -184,16 +203,15 @@ export default {
 
 .account{
   position: fixed;
-  width: 33vw;
-  height: 68vh;
+  width: min(444px, 92vw);
+  height: 65vh;
   min-width: 260px;
-  max-width: 450px;
-  top: 17%;
+  top: 20%;
   left: 50%;
   border-left:  6px solid black;
   border-right:  6px solid  black;
   transform: translateX(-50%);
-  padding: 40px 8px 32px 25px;
+  padding: 40px 22px 70px;
   border-radius: 16px;
   box-sizing: border-box;
 }
@@ -201,26 +219,30 @@ export default {
 .information-column{
   display:flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 22px;
   width: 100%;
-  align-items: stretch;
+  align-items: center;
 }
 
 .information-row{
-  display:  flex;
+  display: grid;
+  grid-template-columns: 84px minmax(0, 210px) auto;
+  column-gap: 10px;
   align-items: center;
+  width: min(400px, 100%);
   color: black;
-  padding-left: 12px;
 }
 
 .information-row label {
-  min-width: 70px;
   color: black;
   font-weight: bold;
   font-size: 1rem;
+  white-space: nowrap;
 }
 
 .information-row input{
+  width: 100%;
+  box-sizing: border-box;
   padding: 3px 13px 2px 4px;
   font-size: 1rem;
   border-top: none;
@@ -234,9 +256,47 @@ export default {
   border-bottom: 2.5px solid #00ff80;
 }
 
+.input-message-group {
+  display: flex;
+  flex-direction: column;
+  grid-column: 2 / 3;
+  min-width: 0;
+}
+
+.pw-error {
+  margin: 5px 0 0 4px;
+  color: #d93025;
+  font-size: 0.72rem;
+  line-height: 1.2;
+}
+
+.confirm-slide-enter-active,
+.confirm-slide-leave-active {
+  max-height: 62px;
+  overflow: hidden;
+  transition:
+      opacity 0.26s ease,
+      max-height 0.28s ease,
+      transform 0.28s ease;
+}
+
+.confirm-slide-enter-from,
+.confirm-slide-leave-to {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.confirm-slide-enter-to,
+.confirm-slide-leave-from {
+  max-height: 62px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .signup-btn {
-  position: fixed;
-  top: 440px;
+  position: absolute;
+  bottom: 38px;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -259,9 +319,6 @@ export default {
 }
 
 .id-duplicate-btn {
-  position: fixed;
-  left: 350px;
-  top: 16%;
   font-size:  1.0rem;
   border-radius: 10px;
   background: white;
@@ -270,9 +327,6 @@ export default {
 }
 
 .email-duplicate-btn {
-  position: fixed;
-  left: 350px;
-  top: 340px;
   font-size:  1.0rem;
   border-radius: 10px;
   background: white;

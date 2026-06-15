@@ -19,9 +19,9 @@ export default {
     <div class="btn-box">
       <div class="register-btn" @click="$router.push('/basicRegister')"
            style="cursor:pointer;"> <p class="change-color02" style="font-weight: bold">CREATE ACCOUNT</p> </div>
-      <div class="simple-btn01" style="cursor:pointer;">
+      <div class="kakao-btn" style="cursor:pointer;">
         <p class="change-color02" style="font-weight: bold">KAKAO SING UP</p></div>
-      <div class="simple-btn02" style="cursor:pointer;">
+      <div class="naver-btn" style="cursor:pointer;">
         <p class="change-color02" style="font-weight: bold">NAVER SING UP</p></div>
     </div>
   </div>
@@ -66,11 +66,11 @@ export default {
   position: fixed;
   width: 25vw;
   height: 60px;
-  top: 30%;
+  top: 34%;
   left: 50%;
   padding-top: 15px;
   transform: translate(-50%, 0%);
-  border: #020202;
+  border-radius: 20px;
   text-align: center;
   background: #9f9f9f;
   color: #020202;
@@ -78,15 +78,15 @@ export default {
   font-family: 'GowunBatang-Regular';
 }
 
-.simple-btn01{
+.kakao-btn{
   position: fixed;
   width: 25vw;
   height: 60px;
-  top: 45%;
+  top: 47%;
   left: 50%;
   padding-top: 15px;
+  border-radius: 20px;
   transform: translate(-50%, 0%);
-  border: #020202;
   text-align: center;
   background: #efdf2d;
   color: #020202;
@@ -94,15 +94,15 @@ export default {
   font-family: 'GowunBatang-Regular';
 }
 
-.simple-btn02{
+.naver-btn{
   position: fixed;
   width: 25vw;
   height: 60px;
   top: 60%;
   left: 50%;
   padding-top: 15px;
+  border-radius: 20px;
   transform: translate(-50%, 0%);
-  border: #020202;
   text-align: center;
   background: #44bd55;
   color: #020202;
