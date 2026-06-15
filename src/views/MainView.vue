@@ -2,6 +2,15 @@
 import RightSide from "@/components/mainview/RightSide.vue";
 import LeftSide from "@/components/mainview/LeftSide.vue";
 import CustomerRight from "@/components/customer/CustomerRight.vue";
+import image01 from "@/assets/image/1.png";
+import image02 from "@/assets/image/2.png";
+import image03 from "@/assets/image/3.png";
+import image04 from "@/assets/image/4.png";
+import image05 from "@/assets/image/5.png";
+import image06 from "@/assets/image/6.png";
+import image07 from "@/assets/image/7.png";
+import image08 from "@/assets/image/8.png";
+import image09 from "@/assets/image/9.png";
 
 export default {
   name: 'MainView',
@@ -11,6 +20,17 @@ export default {
       isRightSideOpen: false,
       isLeftSideOpen: false,
       displayName: null,
+      productImages: [
+        image01,
+        image02,
+        image03,
+        image04,
+        image05,
+        image06,
+        image07,
+        image08,
+        image09,
+      ],
     }
   },
   computed: {
@@ -22,7 +42,7 @@ export default {
         }
       }else {
         return {
-          right: '32px',
+          right: '56px',
           transition: 'right 0.4s cubic-bezier(.71, 1.7, .58, .98)'
         }
       }
@@ -35,7 +55,7 @@ export default {
         }
       }else {
         return {
-          left: '32px',
+          left: '56px',
           transition: 'left 0.4s cubic-bezier(.71, 1.7, .58, .98)'
         }
       }
@@ -96,6 +116,15 @@ export default {
         <p class="change-color01" @click="$router.push('/main')"> sori </p>
       </div>
     </div>
+    <div class="product-grid">
+      <img
+          v-for="(image, index) in productImages"
+          :key="image"
+          :src="image"
+          :alt="`상품 이미지 ${index + 1}`"
+          class="product-image"
+      />
+    </div>
   </div>
 </template>
 
@@ -106,14 +135,15 @@ export default {
   position: relative;
   width: 100vw;
   height: 100vh;
+  max-height: 100vh !important;
   background: #ffffff;
-  /* 나중에 요소가 넘치면 스크롤이 생기도록 */
-  overflow:  hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .center-icon {
-  position: fixed;
-  top: 10%;
+  position: absolute;
+  top: 7%;
   left: 50%;
   transform: translateX(-50%);
   display:  flex;
@@ -142,6 +172,26 @@ export default {
   font-weight: bold;
   color: #00ff80;
   cursor: pointer;
+}
+
+.product-grid {
+  position: relative;
+  top: 22%;
+  margin: 43px calc(32px + 53px + 80px) 96px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 28px;
+  row-gap: 84px;
+  padding-bottom: 96px;
+  z-index: 10;
+}
+
+.product-image {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  box-sizing: border-box;
+  display: block;
 }
 
 .left-sideBar {

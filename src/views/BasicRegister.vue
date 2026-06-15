@@ -131,9 +131,8 @@ export default {
         </div>
         <transition name="confirm-slide">
           <div v-if="showPwConfirm" class="information-row confirm-row">
-            <label>ෆ confirm  </label>
             <div class="input-message-group">
-              <input v-model="pwConfirm" type="password" name="passwordConfirm" placeholder="password confirm"/>
+              <input v-model="pwConfirm" type="password" name="passwordConfirm"/>
               <p v-if="isPwMismatch" class="pw-error">비밀번호가 불일치합니다.</p>
             </div>
           </div>
@@ -261,6 +260,10 @@ export default {
   flex-direction: column;
   grid-column: 2 / 3;
   min-width: 0;
+}
+
+.confirm-row .input-message-group {
+  grid-column: 2 / 3;
 }
 
 .pw-error {

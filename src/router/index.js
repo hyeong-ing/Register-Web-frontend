@@ -19,6 +19,7 @@ const routes = [
     // 동적 import(지연 로딩). 이 경로에 들어올 때에만 KakaoCallback.vue 파일을 네트워크로 가져와서 렌더링합니다.
     // redirect_uri를 프론트로 잡았다면 반드시 있어야, 그 경로에서 code를 읽고 다음 단계(백엔드로 코드 전송 → 토큰 교환)를 진행할 수 있어요.
     { path: '/oauth/code/kakao', name:'KakaoCallback', component: () => import("../components/loginview/KakaoCallback.vue")},
+    { path: '/oauth/code/naver', name:'NaverCallback', component: () => import("../components/loginview/NaverCallback.vue")},
 ]
 
 const router = createRouter({

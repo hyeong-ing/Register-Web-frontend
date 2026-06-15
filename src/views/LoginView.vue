@@ -52,6 +52,26 @@ export default {
       // href는 뒤로가기 허용
       window.location.href = authUrl;
 
+    },
+    naverLogin() {
+      const CLIENT_ID = import.meta.env.VITE_NAVER_CLIENT_ID;
+      const REDIRECT_URI = `${window.location.origin}/oauth/code/naver`;
+
+      if (!CLIENT_ID) {
+        alert("VITE_NAVER_CLIENT_ID가 비어있습니다.");
+        return;
+      }
+
+      const state = btoa(String(Date.now()));
+      sessionStorage.setItem("naver_oauth_state", state);
+
+      const authUrl =
+          `https://nid.naver.com/oauth2.0/authorize?response_type=code` +
+          `&client_id=${encodeURIComponent(CLIENT_ID)}` +
+          `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
+          `&state=${encodeURIComponent(state)}`;
+
+      window.location.href = authUrl;
     }
   }
 }
@@ -80,12 +100,11 @@ export default {
         <p>ෆ PW </p>
         <input v-model="pw" type="password" name="password" placeholder="password"/>
       </div>
-        <button class="login-text" @click="login"> SIGN IN </button>
-    </div>
-
-    <!-- 카카오 버튼 -->
-    <div class="kakao">
-      <img src="../assets/kakao.png" alt="Kakao" @click="kakaoLogin"/>
+      <button class="login-text" @click="login"> SIGN IN </button>
+      <div class="social-login-box">
+        <img src="../assets/kakao.png" alt="Kakao" class="social-login-img" @click="kakaoLogin"/>
+        <img src="../assets/naver.png" alt="Naver" class="social-login-img" @click="naverLogin"/>
+      </div>
     </div>
 
   </div>
@@ -135,7 +154,7 @@ export default {
 .login-container {
   position: absolute;
   width: 33vw;
-  height: 30vh;
+  height: 46vh;
   top: 25%;
   left: 50%;
   transform: translateX(-50%);
@@ -152,21 +171,23 @@ export default {
   width: 33vw;
   height: 10vh;
   left: 20%;
-  top: 10%;
+  top: 5%;
   align-items: center;
   flex-direction: row;
   display: flex;
-  gap: 8.5%;
+  gap: 7.5%;
   font-size: 1.0rem;
   font-weight: bold;
   font-family: 'GowunBatang-Regular', serif;
   color: white;
 }
+
 .id-box input{
   width: 15vw;
   height: 4vh;
   padding: 3px 13px 2px 4px;
   font-size: 1rem;
+  border: solid 1px white;
   transition: border-bottom 0.2s ;
 }
 
@@ -175,11 +196,11 @@ export default {
   width: 33vw;
   height: 10vh;
   left: 20%;
-  top: 30%;
+  top: 20%;
   align-items: center;
   flex-direction: row;
   display: flex;
-  gap: 6.6%;
+  gap: 5.5%;
   font-size: 1.0rem;
   font-weight: bold;
   font-family: 'GowunBatang-Regular', serif;
@@ -191,16 +212,19 @@ export default {
   padding: 3px 13px 2px 4px;
   font-size: 1rem;
   transition: border-bottom 0.2s ;
+  border: solid 1px white;
 }
 
 
 .login-text {
   position: absolute;
-  width: 20vw;
-  height: 5.3vh;
-  bottom: 17%;
+  width: 19.5vw;
+  height: 5.4vh;
+  top: 43%;
   left: 50%;
   transform: translateX(-50%);
+  border-radius: 8px;
+  border: solid 1px white;
   font-size: 1rem;
   font-weight: bold;
   text-align: center;
@@ -209,17 +233,27 @@ export default {
 }
 
 .login-text:hover{
-  background-color: #00ff80;
-  border: #00ff80;
-  color: white;
-  -webkit-text-stroke: 0.8px black;
+  background-color: #c4c6c6;
+  border: #c4c6c6;
 }
 
-.kakao{
-  position:  absolute;
-  top:60%;
+.social-login-box {
+  position: absolute;
+  top: 59%;
   left: 50%;
   transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.social-login-img {
+  width: 20vw;
+  max-width: 280px;
+  min-width: 180px;
+  height: 45px;
+  object-fit: contain;
   cursor: pointer;
 }
 
