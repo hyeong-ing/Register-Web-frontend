@@ -15,6 +15,7 @@ export default {
       email: "",
       idDuplicate: true,
       emailDuplicate: true,
+      submitTried: false,
     };
   },
 
@@ -38,12 +39,79 @@ export default {
     },
     isPwMismatch() {
       return this.pwConfirm.length > 0 && this.pw !== this.pwConfirm;
+    },
+    checkName() {
+      const pattern = /^[가-힣]{2,5}$/;
+
+      if (!this.name || this.name.trim() === "") return "성함을 입력해주세요.";
+      if (!pattern.test(this.name)) return "성함은 한글로 작성하셔야합니다.";
+
+      return "";
+    },
+    checkId() {
+      const pattern = /^(?=.*\d)[A-Za-z][A-Za-z0-9]{3,19}$/;
+
+      if (!this.userId || this.userId.trim() === "") return "아이디를 입력해주세요.";
+      if (!pattern.test(this.userId)) {
+        return "아이디의 첫글자는 영어이며, 영어와 숫자를 섞어 4자리 이상 20자리 이하만 가능합니다.";
+      }
+
+      return "";
+    },
+    checkPw() {
+      const pattern = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z])(?=.*[!@#$%^&*()-+=]).{8,}$/;
+
+      if (!this.pw || this.pw.trim() === "") return "패스워드를 입력해주세요.";
+      if (!pattern.test(this.pw)) return "패스워드에 대문자와 특수문자가 포함된 8글자 이상이어야합니다.";
+
+      return "";
+    },
+    checkPwConfirm() {
+      if (!this.showPwConfirm) return "";
+      if (!this.pwConfirm || this.pwConfirm.trim() === "") return "패스워드 확인란을 입력해주세요.";
+      if (this.pw !== this.pwConfirm) return "비밀번호가 불일치합니다.";
+
+      return "";
+    },
+    checkTel() {
+      const pattern = /^01(?:0|1|[6-9])[-](\d{3}|\d{4})[-](\d{4})$/;
+
+      if (!this.tel || this.tel.trim() === "") return "휴대폰 번호를 입력해주세요.";
+      if (!pattern.test(this.tel)) return "휴대폰 번호 양식은 010-0000-0000 입니다.";
+
+      return "";
+    },
+    checkEmail() {
+      const pattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])+[.][a-zA-Z]{2,3}$/;
+
+      if (!this.email || this.email.trim() === "") return "이메일을 입력해주세요.";
+      if (!pattern.test(this.email)) return "이메일 양식을 확인해주세요.";
+
+      return "";
+    },
+    checkForm() {
+      return !this.checkName
+          && !this.checkId
+          && !this.checkPw
+          && !this.checkPwConfirm
+          && !this.checkTel
+          && !this.checkEmail;
     }
   },
 
   methods: {
+    getRequestCheckMessage(e) {
+      return e?.response?.data ?? "서버에 연결할 수 없습니다. 백엔드 서버가 실행 중인지 확인해주세요.";
+    },
     async register() {
       try {
+        this.submitTried = true;
+
+        if (!this.checkForm) {
+          alert("입력값을 다시 확인해주세요.");
+          return;
+        }
+
        if(this.idDuplicate === true) {
           alert("아이디 중복체크를 해주세요.")
           return;
@@ -69,11 +137,16 @@ export default {
           query: { userId: this.userId }
       })
       } catch (e) {
-        alert(e.response.data);
+        alert(this.getRequestCheckMessage(e));
       }
     },
     async checkIdDuplicate() {
       console.log("idDuplicate 버튼 클릭됨:", this.userId);
+      if (this.checkId) {
+        alert(this.checkId);
+        return;
+      }
+
       try{
         const res = await axios.post("http://localhost:8080/api/idDuplicate", {
           userId: this.userId
@@ -81,11 +154,16 @@ export default {
         alert("사용가능한 아이디입니다.");
         this.idDuplicate = false;
       } catch(e) {
-        alert(e.response.data);
+        alert(this.getRequestCheckMessage(e));
         this.idDuplicate = true;
       }
     },
     async checkEmailDuplicate() {
+      if (this.checkEmail) {
+        alert(this.checkEmail);
+        return;
+      }
+
       try {
         const res = await axios.post("http://localhost:8080/api/emailDuplicate",{
           email: this.email
@@ -93,7 +171,7 @@ export default {
         alert("사용가능한 이메일입니다.");
         this.emailDuplicate = false;
       } catch (e) {
-        alert(e.response.data);
+        alert(this.getRequestCheckMessage(e));
         this.emailDuplicate = true;
       }
     }
@@ -118,28 +196,40 @@ export default {
       <div class="information-column">
         <div class="information-row">
           <label>ෆ name  </label>
-          <input v-model="name" type="text" name="name" placeholder="name"/>
+          <div class="input-message-group">
+            <input v-model="name" type="text" name="name" placeholder="name"/>
+            <p v-if="(name || submitTried) && checkName" class="check-message">{{ checkName }}</p>
+          </div>
         </div>
         <div class="information-row">
           <label>ෆ id  </label>
-          <input v-model="userId" type="text" name="userId" placeholder="id"/>
+          <div class="input-message-group">
+            <input v-model="userId" type="text" name="userId" placeholder="id"/>
+            <p v-if="(userId || submitTried) && checkId" class="check-message">{{ checkId }}</p>
+          </div>
           <button class="id-duplicate-btn" @click="checkIdDuplicate"> id </button>
         </div>
         <div class="information-row">
           <label>ෆ pw  </label>
-          <input v-model="pw" type="password" name="password" placeholder="password"/>
+          <div class="input-message-group">
+            <input v-model="pw" type="password" name="password" placeholder="password"/>
+            <p v-if="(pw || submitTried) && checkPw" class="check-message">{{ checkPw }}</p>
+          </div>
         </div>
         <transition name="confirm-slide">
           <div v-if="showPwConfirm" class="information-row confirm-row">
             <div class="input-message-group">
               <input v-model="pwConfirm" type="password" name="passwordConfirm"/>
-              <p v-if="isPwMismatch" class="pw-error">비밀번호가 불일치합니다.</p>
+              <p v-if="(pwConfirm || submitTried) && checkPwConfirm" class="check-message">{{ checkPwConfirm }}</p>
             </div>
           </div>
         </transition>
         <div class="information-row">
           <label>ෆ tel   </label>
-          <input v-model="tel" type="tel" name="tel"  placeholder="010-0000-0000"/>
+          <div class="input-message-group">
+            <input v-model="tel" type="tel" name="tel"  placeholder="010-0000-0000"/>
+            <p v-if="(tel || submitTried) && checkTel" class="check-message">{{ checkTel }}</p>
+          </div>
         </div>
         <div class="information-row">
           <label>ෆ birth   </label>
@@ -147,7 +237,10 @@ export default {
         </div>
         <div class="information-row">
           <label>ෆ email   </label>
-          <input v-model="email"  type="email" name="email" placeholder="example01@sori.com"/>
+          <div class="input-message-group">
+            <input v-model="email"  type="email" name="email" placeholder="example01@sori.com"/>
+            <p v-if="(email || submitTried) && checkEmail" class="check-message">{{ checkEmail }}</p>
+          </div>
           <button class="email-duplicate-btn" @click="checkEmailDuplicate"> email </button>
         </div>
         <div class="signup-btn">
@@ -266,7 +359,7 @@ export default {
   grid-column: 2 / 3;
 }
 
-.pw-error {
+.check-message {
   margin: 5px 0 0 4px;
   color: #d93025;
   font-size: 0.72rem;

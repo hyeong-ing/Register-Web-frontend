@@ -82,8 +82,6 @@ export default {
   cursor: pointer;
 }
 
-/* new code */
-
 .user-info{
   position: absolute;
   width: 600px;
@@ -106,7 +104,7 @@ export default {
 .user-id{
   position: absolute;
   top: 40%;
-  left: 48%;
+  left: 46%;
   padding-left: 7px;
   padding-right: 7px;
   border-radius: 17px;
